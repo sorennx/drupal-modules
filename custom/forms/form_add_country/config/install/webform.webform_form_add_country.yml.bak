@@ -1,0 +1,3 @@
+langcode: en
+css: '#edit-actions-submit {background: #00cc00;}'
+javascript: ''

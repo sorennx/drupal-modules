@@ -1,0 +1,5 @@
+name: 'info_about_university'
+type: module
+description: 'A module used for hooks'
+package: 'Alters to block views'
+core_version_requirement: 9.3.x

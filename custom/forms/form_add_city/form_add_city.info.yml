@@ -1,0 +1,13 @@
+name: 'form_add_city'
+type: module
+description: 'Form add city'
+package: 'Add entries to the base tables'
+core_version_requirement: 9.3.x
+configure: form_add_city.settings
+libraries:
+  - form_add_city/form_add_city
+dependencies:
+  - 'webform:webform'
+  - 'drupal:block'
+  - 'drupal:views'
+  - 'webform:webform_node'

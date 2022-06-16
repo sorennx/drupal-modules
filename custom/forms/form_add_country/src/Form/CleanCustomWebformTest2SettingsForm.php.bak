@@ -1,0 +1,160 @@
+<?php
+
+namespace Drupal\clean_custom_webform_test_2\Form;
+
+use Drupal\Core\Form\ConfigFormBase;
+use Drupal\Core\Form\FormStateInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Code\Database\Database;
+
+/**
+ * clean_custom_webform_test_2  configuration settings form.
+ */
+class CleanCustomWebformTest2SettingsForm extends ConfigFormBase {
+
+  /**
+   * The webform token manager.
+   *
+   * @var \Drupal\webform\WebformTokenManagerInterface
+   */
+  protected $tokenManager;
+
+  /**
+   * The webform element plugin manager.
+   *
+   * @var \Drupal\webform\Plugin\WebformElementManagerInterface
+   */
+  protected $elementManager;
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    $instance = parent::create($container);
+    $instance->tokenManager = $container->get('webform.token_manager');
+    $instance->elementManager = $container->get('plugin.manager.webform.element');
+    return $instance;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getFormId() {
+    return 'clean_custom_webform_test_2_settings_form';
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function getEditableConfigNames() {
+    return ['clean_custom_webform_test_2.settings'];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function buildForm(array $form, FormStateInterface $form_state) {
+    $config = $this->config('clean_custom_webform_test_2.settings');
+
+    $form['country'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Country'),
+      '#size' => 32,
+      '#placeholder' => $this->t('Enter a country name'),
+      //'#default_value' => $config->get('country'),
+    ];
+	
+	$form['name'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Name'),
+      '#size' => 32,
+      '#placeholder' => $this->t('Enter your name'),
+      //'#default_value' => $config->get('country'),
+    ];
+	$form['lastname'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Lastname'),
+      '#size' => 32,
+      '#placeholder' => $this->t('Enter your lastname'),
+      //'#default_value' => $config->get('country'),
+    ];
+	
+	$form['feedback'] =[
+		'#type' => 'textarea',
+		'#title' => $this->t('Feedback'),
+		'#size' => 255,
+		'#placeholer' => $this->t('Describe your experience with this university'),
+		
+	];
+	$form['satisfacton'] =[
+		'#type' => 'range',
+		'#title' => $this->t('satisfaction'),
+		'#output' => 'right',
+	];
+	
+	
+    $form['actions'] = [
+      '#type' => 'actions',
+      '#tree' => TRUE,
+    ];
+    $form['actions']['submit'] = [
+      '#type' => 'submit',
+      '#value' => 'Submit',
+      '#button_type' => 'primary',
+    ];
+
+    // Process elements.
+    $this->elementManager->processElements($form);
+
+    // Replace tokens.
+    $form = $this->tokenManager->replace($form);
+
+    // Attach the webform library.
+    $form['#attached']['library'][] = 'webform/webform.form';
+
+    // Autofocus: Save details open/close state.
+    $form['#attributes']['class'][] = 'js-webform-autofocus';
+    $form['#attached']['library'][] = 'webform/webform.form.auto_focus';
+
+    // Unsaved: Warn users about unsaved changes.
+    $form['#attributes']['class'][] = 'js-webform-unsaved';
+    $form['#attached']['library'][] = 'webform/webform.form.unsaved';
+
+    // Details save: Attach details element save open/close library.
+    $form['#attached']['library'][] = 'webform/webform.element.details.save';
+
+    // Details toggle: Display collapse/expand all details link.
+    $form['#attributes']['class'][] = 'js-webform-details-toggle';
+    $form['#attributes']['class'][] = 'webform-details-toggle';
+    $form['#attached']['library'][] = 'webform/webform.element.details.toggle';
+
+    return $form;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function submitForm(array &$form, FormStateInterface $form_state) {
+    // Get all values.
+    $values = $form_state->getValues();
+
+    // Remove Form API values.
+    unset(
+      $values['form_build_id'],
+      $values['form_token'],
+      $values['form_id'],
+      $values['op'],
+      $values['actions']
+    );
+	
+	//Send the form data to the specified table in our database
+	$query = \Drupal::database();
+	$query->insert('custom_webform_test2')->fields($values)->execute();
+	
+	//Send a message after submitting the form
+	$messenger = \Drupal::messenger();
+	$messenger->addMessage('Form has been submited.', $messenger::TYPE_STATUS);
+	
+  }
+
+}

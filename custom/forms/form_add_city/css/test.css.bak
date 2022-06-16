@@ -1,0 +1,9 @@
+#edit-submit
+{
+  background: green;
+}
+
+h1.title.page-title
+{
+	color:red;
+}

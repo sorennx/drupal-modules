@@ -1,0 +1,7 @@
+form_add_region.settings:
+  path: /form-add-region
+  defaults:
+    _form: \Drupal\form_add_region\Form\FormAddRegionSettingsForm
+    _title: 'Form add region'
+  requirements:
+    _permission: 'access content'

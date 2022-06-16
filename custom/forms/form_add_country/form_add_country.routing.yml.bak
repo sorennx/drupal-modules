@@ -1,0 +1,7 @@
+clean_custom_webform_test_2.settings:
+  path: /custom-webform-test2
+  defaults:
+    _form: \Drupal\clean_custom_webform_test_2\Form\CleanCustomWebformTest2SettingsForm
+    _title: 'Custom Webform Test 2'
+  requirements:
+    _permission: 'access content'

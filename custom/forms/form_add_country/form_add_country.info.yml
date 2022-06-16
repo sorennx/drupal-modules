@@ -1,0 +1,13 @@
+name: 'form_add_country'
+type: module
+description: 'Form add country'
+package: 'Add entries to the base tables'
+core_version_requirement: 9.3.x
+configure: form_add_country.settings
+libraries:
+  - form_add_country/form_add_country
+dependencies:
+  - 'webform:webform'
+  - 'drupal:block'
+  - 'drupal:views'
+  - 'webform:webform_node'

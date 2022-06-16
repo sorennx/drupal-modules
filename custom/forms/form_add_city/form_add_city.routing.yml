@@ -1,0 +1,7 @@
+form_add_city.settings:
+  path: /form-add-city
+  defaults:
+    _form: \Drupal\form_add_city\Form\FormAddCitySettingsForm
+    _title: 'Form add city'
+  requirements:
+    _permission: 'access content'

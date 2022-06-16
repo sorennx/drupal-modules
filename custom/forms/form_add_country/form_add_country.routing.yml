@@ -1,0 +1,7 @@
+form_add_country.settings:
+  path: /form-add-country
+  defaults:
+    _form: \Drupal\form_add_country\Form\FormAddCountrySettingsForm
+    _title: 'Form add country'
+  requirements:
+    _permission: 'access content'

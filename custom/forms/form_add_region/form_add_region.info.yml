@@ -1,0 +1,13 @@
+name: 'form_add_region'
+type: module
+description: 'Form add region'
+package: 'Add entries to the base tables'
+core_version_requirement: 9.3.x
+configure: form_add_region.settings
+libraries:
+  - form_add_region/form_add_region
+dependencies:
+  - 'webform:webform'
+  - 'drupal:block'
+  - 'drupal:views'
+  - 'webform:webform_node'
